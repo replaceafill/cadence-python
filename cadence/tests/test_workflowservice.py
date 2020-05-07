@@ -27,7 +27,7 @@ class TestStartWorkflow(TestCase):
         self.service = WorkflowService.create("localhost", 7933)
 
         self.request = request = StartWorkflowExecutionRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.request_id = str(uuid4())
         request.task_list = TaskList()
         request.task_list.name = "test-task-list"
@@ -116,7 +116,7 @@ class TestStartWorkflow(TestCase):
     def test_get_workflow_execution_history(self):
         response, err = self.service.start_workflow(self.request)
         request = GetWorkflowExecutionHistoryRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.execution = WorkflowExecution()
         request.execution.workflow_id = self.request.workflow_id
         request.execution.run_id = response.run_id
@@ -129,7 +129,7 @@ class TestStartWorkflow(TestCase):
     def test_poll_for_decision_task(self):
         request = PollForDecisionTaskRequest()
         request.identity = "123@localhost"
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.task_list = TaskList()
         request.task_list.name = "test-task-list" + str(uuid4())
         response, err = self.service.poll_for_decision_task(request)
@@ -158,7 +158,7 @@ class TestStartWorkflow(TestCase):
 
     def test_poll_for_activity_task_timeout(self):
         request = PollForActivityTaskRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.identity = WorkflowService.get_identity()
         request.task_list = TaskList()
         request.task_list.name = "test-task-list"
@@ -179,7 +179,7 @@ class TestStartWorkflow(TestCase):
         start_response, _ = self.service.start_workflow(self.request)
         request = RecordActivityTaskHeartbeatByIDRequest()
         request.identity = "123@localhost"
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.workflow_id = self.request.workflow_id
         request.run_id = start_response.run_id
         request.activity_id = "dummy-activity-id"
@@ -201,7 +201,7 @@ class TestStartWorkflow(TestCase):
         start_response, _ = self.service.start_workflow(self.request)
         request = RespondActivityTaskCompletedByIDRequest()
         request.identity = "123@localhost"
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.workflow_id = self.request.workflow_id
         request.run_id = start_response.run_id
         request.activity_id = "dummy-activity-id"
@@ -223,7 +223,7 @@ class TestStartWorkflow(TestCase):
         start_response, _ = self.service.start_workflow(self.request)
         request = RespondActivityTaskFailedByIDRequest()
         request.identity = "123@localhost"
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.workflow_id = self.request.workflow_id
         request.run_id = start_response.run_id
         request.activity_id = "dummy-activity-id"
@@ -244,7 +244,7 @@ class TestStartWorkflow(TestCase):
     def test_respond_activity_task_canceled_by_id_invalid(self):
         start_response, _ = self.service.start_workflow(self.request)
         request = RespondActivityTaskCanceledByIDRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.workflow_id = self.request.workflow_id
         request.run_id = start_response.run_id
         request.activity_id = "dummy-activity-id"
@@ -256,7 +256,7 @@ class TestStartWorkflow(TestCase):
     def test_request_cancel_workflow_execution(self):
         start_response, _ = self.service.start_workflow(self.request)
         request = RequestCancelWorkflowExecutionRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.workflow_execution = WorkflowExecution()
         request.workflow_execution.workflow_id = self.request.workflow_id
         request.workflow_execution.run_id = start_response.run_id
@@ -267,7 +267,7 @@ class TestStartWorkflow(TestCase):
     def test_signal_workflow_execution(self):
         start_response, _ = self.service.start_workflow(self.request)
         request = SignalWorkflowExecutionRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.signal_name = "dummy-signal"
         request.workflow_execution = WorkflowExecution()
         request.workflow_execution.workflow_id = self.request.workflow_id
@@ -279,7 +279,7 @@ class TestStartWorkflow(TestCase):
     def test_signal_with_start_workflow_execution(self):
         request = SignalWithStartWorkflowExecutionRequest()
         request.signal_name = "dummy-signal"
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.request_id = str(uuid4())
         request.task_list = TaskList()
         request.task_list.name = "test-task-list"
@@ -297,7 +297,7 @@ class TestStartWorkflow(TestCase):
     def test_terminate_workflow_execution(self):
         start_response, _ = self.service.start_workflow(self.request)
         request = TerminateWorkflowExecutionRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.workflow_execution = WorkflowExecution()
         request.workflow_execution.workflow_id = self.request.workflow_id
         request.workflow_execution.run_id = start_response.run_id
@@ -307,7 +307,7 @@ class TestStartWorkflow(TestCase):
 
     def test_list_open_workflow_executions(self):
         request = ListOpenWorkflowExecutionsRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.start_time_filter = StartTimeFilter()
         request.maximum_page_size = 20
         request.start_time_filter.earliest_time = 1
@@ -319,7 +319,7 @@ class TestStartWorkflow(TestCase):
 
     def test_list_closed_workflow_executions(self):
         request = ListClosedWorkflowExecutionsRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.start_time_filter = StartTimeFilter()
         # Nano seconds?
         request.start_time_filter.earliest_time = calendar.timegm(time.gmtime()) * 1e+9
@@ -333,7 +333,7 @@ class TestStartWorkflow(TestCase):
     def test_reset_sticky_task_list(self):
         start_response, _ = self.service.start_workflow(self.request)
         request = ResetStickyTaskListRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.execution = WorkflowExecution()
         request.execution.workflow_id = self.request.workflow_id
         request.execution.run_id = start_response.run_id
@@ -344,7 +344,7 @@ class TestStartWorkflow(TestCase):
     def test_describe_workflow_execution(self):
         start_response, _ = self.service.start_workflow(self.request)
         request = DescribeWorkflowExecutionRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.execution = WorkflowExecution()
         request.execution.workflow_id = self.request.workflow_id
         request.execution.run_id = start_response.run_id
@@ -355,7 +355,7 @@ class TestStartWorkflow(TestCase):
 
     def test_describe_workflow_execution_invalid_workflow(self):
         request = DescribeWorkflowExecutionRequest()
-        request.domain = "test-domain"
+        request.domain = "sample"
         request.execution = WorkflowExecution()
         request.execution.workflow_id = str(uuid4())
         request.execution.run_id = str(uuid4())
@@ -368,7 +368,7 @@ class TestStartWorkflow(TestCase):
         request.task_list = TaskList()
         request.task_list.name = "test-task-list"
         request.task_list_type = TaskListType.Decision
-        request.domain = "test-domain"
+        request.domain = "sample"
         response, err = self.service.describe_task_list(request)
         self.assertIsNone(err)
         self.assertIsNotNone(response)
